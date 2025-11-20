@@ -1423,44 +1423,34 @@ Value Define::eval(Assoc &env) {
 //     }
 //     return body->eval(new_env);
 // }
+
 Value Let::eval(Assoc &env) {
-    std::cout << "=== Let Debug ===" << std::endl;
+
 
     // 求值所有绑定
     std::vector<Value> values;
     for (auto &b : bind) {
-        std::cout << "Evaluating binding: " << b.first << std::endl;
+
         Value value = b.second->eval(env);
         values.push_back(value);
-        std::cout << "Binding " << b.first << " = ";
-        value->show(std::cout);
-        std::cout << std::endl;
+
+
     }
 
     // 创建新环境
     Assoc new_env = env;
     for (size_t i = 0; i < values.size(); i++) {
-        std::cout << "Extending environment with: " << bind[i].first << std::endl;
+
         new_env = extend(bind[i].first, values[i], new_env);
 
         // 验证扩展是否成功
         Value test = find(bind[i].first, new_env);
         if (test.get() != nullptr) {
-            std::cout << "SUCCESS: " << bind[i].first << " found in environment" << std::endl;
+
         } else {
-            std::cout << "ERROR: " << bind[i].first << " not found after extend!" << std::endl;
+
         }
     }
-
-    std::cout << "Evaluating let body" << std::endl;
-    Value result = body->eval(new_env);
-    std::cout << "Let body result: ";
-    result->show(std::cout);
-    std::cout << std::endl;
-
-    std::cout << "=== Let Debug End ===" << std::endl;
-    return result;
-}
 
 // Value Letrec::eval(Assoc &env) {//实现局部递归函数
 //     //TODO: To complete the letrec logic
