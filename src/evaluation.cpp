@@ -1424,6 +1424,7 @@ Value Define::eval(Assoc &env) {
 //     return body->eval(new_env);
 // }
 
+
 Value Let::eval(Assoc &env) {
 
 
@@ -1451,6 +1452,13 @@ Value Let::eval(Assoc &env) {
 
         }
     }
+
+
+    Value result = body->eval(new_env);
+
+    return result;
+}
+
 
 // Value Letrec::eval(Assoc &env) {//实现局部递归函数
 //     //TODO: To complete the letrec logic
